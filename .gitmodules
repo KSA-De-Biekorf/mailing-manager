@@ -1,0 +1,3 @@
+[submodule "PersonDBLib"]
+	path = PersonDBLib
+	url = git@github.com:KSA-De-Biekorf/PersonDBLib.git
