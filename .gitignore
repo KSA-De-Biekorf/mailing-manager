@@ -1,0 +1,4 @@
+auth_info.php
+/vendor
+.env
+error_log
