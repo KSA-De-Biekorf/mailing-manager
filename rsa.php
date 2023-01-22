@@ -36,6 +36,9 @@ class RSAKeys {
   }
 }
 
-$session_keypair = new RSAKeys();
+#$session_keypair = new RSAKeys();
+$GLOBALS["SESSION_KEYPAIR"] = new RSAKeys();
+
+error_log("Session keypair created");
 
 ?>
