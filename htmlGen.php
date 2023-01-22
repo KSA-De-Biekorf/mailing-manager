@@ -1,5 +1,6 @@
 <?php
 
+// Format the query result of the persons database cluster
 function print_persons($qres) {
     echo "<table>";
     print_header(array("id", "voornaam", "achternaam", "bannen", "emails"));
@@ -8,6 +9,10 @@ function print_persons($qres) {
     }
     echo "</table>";
 }
+
+//===============================
+// Generic HTML table formatting
+//===============================
 
 function print_header($headers) {
     echo "<tr>";
