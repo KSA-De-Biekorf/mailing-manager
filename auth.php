@@ -26,9 +26,9 @@ class Auth {
       return $resp;
     }
 		$session_keypair = $GLOBALS["SESSION_KEYPAIR"];
-    $encuser = $session_keypair->encrypt($userd->user);
+    #$encuser = $session_keypair->encrypt($userd->user);
     // $encpass = $session_keypair->encrypt($userd->pass);
-    $usr64 = base64_encode($encuser);
+    $usr64 = base64_encode($userd->user);
     // $pass64 = base64_encode($encpass);
     $result = query_user_id($conn, $usr64);
     if (!$result) {
@@ -36,7 +36,7 @@ class Auth {
     }
     $row = $result->fetch_assoc();
 		if ($row == null) throw new ErrorException("User does not exist", 202); 
-    $id = $row[0];
+    $id = reset($row); // get first element in array
     $resp->userID = $id;
     
     if (!add_session_token($conn, $tokenBase64, $id, $c_pubkey)) {
