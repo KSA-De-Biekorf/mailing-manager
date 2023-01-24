@@ -47,6 +47,9 @@ class Auth {
   }
 
   // Verify a request with token, signature and userid
+  // - $token: base64 encoded
+  // - $signature: signature of the token, not base64 encoded
+  // - $userid: the user id the token belongs to
   public function verify_request($conn, string $token, string $signature, int $userid): bool {
     $token_entries = query_token($conn, $userID);
     if (!$token_entries) {
