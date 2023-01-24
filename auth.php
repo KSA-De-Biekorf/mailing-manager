@@ -45,6 +45,34 @@ class Auth {
     
     return $resp;
   }
+
+  // Verify a request with token, signature and userid
+  public function verify_request($conn, string $token, string $signature, int $userid): bool {
+    $token_entries = query_token($conn, $userID);
+    if (!$token_entries) {
+      throw new ErrorException("Invalid token for use $userID, or the token has expired", 498);
+    }
+    $token_entry = $token_entries->fetch_assoc();
+    $stored_token = $token_entry["token"];
+    $public_key_pem = base64_decode($token_entry["public_key"]); # is base6' encoded in db
+    $public_key = openssl_get_publickey($public_key_pem);
+    if (!$public_key) {
+      error_log(openssl_error_string());
+      throw new ErrorException("Could not make public key", 500);
+    }
+
+    # todo: public_key_pem to public_key
+    $is_correct_client = openssl_verify($token, $signature, $public_key_pem, "sha256");
+    if (!$is_correct_client) {
+      throw new ErrorException("Unauthorized", 401);
+    }
+
+    if ($token == $stored_token) {
+      return true;
+    } else {
+      throw new ErrorException("Invalid token", 498);
+    }
+  }
 }
 
 class TokenResponse {
@@ -52,7 +80,10 @@ class TokenResponse {
   public $userID;
 }
 
-#$auth = new Auth();
 $GLOBALS["AUTH"] = new Auth();
+
+//--------------------------------------
+
+function authenticate
 
 ?>
