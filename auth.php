@@ -85,8 +85,4 @@ class TokenResponse {
 
 $GLOBALS["AUTH"] = new Auth();
 
-//--------------------------------------
-
-function authenticate
-
 ?>
